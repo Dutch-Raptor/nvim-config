@@ -67,6 +67,7 @@ wk.register({
 	["<leader>l"] = { name = "LSP",
 		a = { function() require("actions-preview").code_actions() end, "Code actions preview" },
 		d = { vim.lsp.buf.definition, "Definition" },
+		e = { function() require("telescope.builtin").diagnostics() end, "Document Diagnostics" },
 		D = { function() require("telescope.builtin").lsp_implementations() end, "Declaration" },
 		i = { vim.lsp.buf.implementation, "Implementation" },
 		R = { function() require("telescope.builtin").lsp_references() end, "References" },
@@ -105,8 +106,4 @@ wk.register({
 		P = { "<cmd>Git pull<cr>", "Pull" },
 		s = { "<cmd>Git<cr>", "Status" },
 	},
-
-
-
-
 })
