@@ -1,12 +1,13 @@
 return {
   -- further customize the options set by the community
   "zbirenbaum/copilot.lua",
+  event = "BufRead",
   config = function()
     require("copilot").setup(
       {
         suggestion = {
           enabled = true,
-            auto_trigger =true,
+          auto_trigger = true,
           keymap = {
             accept = "<C-l>",
             accept_word = false,
@@ -22,8 +23,6 @@ return {
         },
         panel = {
           enabled = false,
-          
-          
         },
       })
   end

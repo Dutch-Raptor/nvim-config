@@ -20,6 +20,7 @@ wk.register({
 		"Toggle Explorer Focus"
 	},
 
+
 	-- Smart Splits
 	["<C-h>"] = { function() require("smart-splits").move_cursor_left() end, "Move to left split" },
 	["<C-j>"] = { function() require("smart-splits").move_cursor_down() end, "Move to below split" },
@@ -30,8 +31,8 @@ wk.register({
 	["<C-Left>"] = { function() require("smart-splits").resize_left() end, "Resize split left" },
 	["<C-Right>"] = { function() require("smart-splits").resize_right() end, "Resize split right" },
 
-	["|"] = { function() require("smart-splits").split_right() end, "Split right" },
-	["\\"] = { function() require("smart-splits").split_down() end, "Split down" },
+	["|"] = { function() require("focus").split_command("l") end, "Split right" },
+	["\\"] = { function() require("focus").split_command("j") end, "Split down" },
 	-- Lazygit
 	["<leader>gg"] = { "<cmd>LazyGit<cr>", "Open LazyGit" },
 
@@ -50,9 +51,10 @@ wk.register({
 
 
 	["<leader>f"] = { name = "Telescope files",
-		g = { require('telescope.builtin').git_files, '[F]ind [G]it files' },
+
 		f = { require('telescope.builtin').find_files, '[F]ind [F]iles' },
-		o = { require('telescope.builtin').oldfiles, '[?] Find recently opened files' },
+		o = { require('telescope.builtin').oldfiles, 'Find recently opened files' },
+		["<CR>"] = { function() require("telescope.builtin").resume() end, "Resume previous search" }
 	},
 
 	["<leader>s"] = { name = "Telescope Search",
@@ -91,8 +93,16 @@ wk.register({
 	["K"] = { vim.lsp.buf.hover, "Hover" },
 
 	-- Vim command shortcuts
-	["<leader>q"] = { "<cmd>q<cr>", "Quit" },
+	["<leader>q"] = { name = "Quit options",
+		q = { "<cmd>q<cr>", "Quit" },
+		a = { "<cmd>qa<cr>", "Quit all" },
+		w = { "<cmd>wq<cr>", "Write and quit" },
+		g = { "<cmd>wqa<cr>", "Write and quit all" },
+
+	},
 	["<leader>w"] = { "<cmd>w<cr>", "Write" },
+	["<leader>W"] = { "<cmd>wa<cr>", "Write" },
+
 
 	-- Git
 
@@ -106,4 +116,32 @@ wk.register({
 		P = { "<cmd>Git pull<cr>", "Pull" },
 		s = { "<cmd>Git<cr>", "Status" },
 	},
+
+	-- Harpoon
+
+	["<C-b>"] = { function() require("harpoon.mark").add_file() end, "Harpoon: add file" },
+	["<leader>h"] = { function() require("harpoon.ui").toggle_quick_menu() end, "Harpoon: toggle quick menu" },
+
+	["<C-n>"] = { function() require("harpoon.ui").nav_file(1) end, "Harpoon: navigate to file 1" },
+	["<C-e>"] = { function() require("harpoon.ui").nav_file(2) end, "Harpoon: navigate to file 2" },
+	["<C-a>"] = { function() require("harpoon.ui").nav_file(3) end, "Harpoon: navigate to file 3" },
+	["<C-o>"] = { function() require("harpoon.ui").nav_file(4) end, "Harpoon: navigate to file 4" },
+
+	-- swap lines
+	["<A-j>"] = { ":m .+1<CR>==", desc = "Move line down" },
+	["<A-k>"] = { ":m .-2<CR>==", desc = "Move line up" },
+
+	["<leader>v"] = { name = "Split or join multiline object" },
+	["<leader>vj"] = { ":TSJToggle<cr>", desc = "Toggle multiline" },
+	["<leader>vv"] = { ":TSJToggle<cr>", desc = "Toggle multiline" },
+	["<leader>vl"] = { ":TSJSplit<cr>", desc = "Split multiline" },
+	["<leader>vk"] = { ":TSJJoin<cr>", desc = "Join multiline" },
+
 })
+
+-- insert mode
+
+wk.register({
+	["<A-k>"] = { "<ESC>:m .-2<CR>==gi", desc = "Move line up" },
+	["<A-j>"] = { "<ESC>:m .+1<CR>==gi", desc = "Move line down" },
+}, { mode = "i" })
