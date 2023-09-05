@@ -122,10 +122,9 @@ wk.register({
 	["<C-b>"] = { function() require("harpoon.mark").add_file() end, "Harpoon: add file" },
 	["<leader>h"] = { function() require("harpoon.ui").toggle_quick_menu() end, "Harpoon: toggle quick menu" },
 
-	["<C-n>"] = { function() require("harpoon.ui").nav_file(1) end, "Harpoon: navigate to file 1" },
-	["<C-e>"] = { function() require("harpoon.ui").nav_file(2) end, "Harpoon: navigate to file 2" },
-	["<C-a>"] = { function() require("harpoon.ui").nav_file(3) end, "Harpoon: navigate to file 3" },
-	["<C-o>"] = { function() require("harpoon.ui").nav_file(4) end, "Harpoon: navigate to file 4" },
+	["<leader>n"] = { function() require("harpoon.ui").nav_file(1) end, "Harpoon: navigate to file 1" },
+	["<leader>e"] = { function() require("harpoon.ui").nav_file(2) end, "Harpoon: navigate to file 2" },
+	["<leader>a"] = { function() require("harpoon.ui").nav_file(3) end, "Harpoon: navigate to file 3" },
 
 	-- swap lines
 	["<A-j>"] = { ":m .+1<CR>==", desc = "Move line down" },
