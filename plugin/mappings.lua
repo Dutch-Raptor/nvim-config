@@ -68,7 +68,10 @@ wk.register({
 	-- LSP
 	["<leader>l"] = { name = "LSP",
 		a = { function() require("actions-preview").code_actions() end, "Code actions preview" },
-		d = { vim.lsp.buf.definition, "Definition" },
+		g = { vim.lsp.buf.definition, "Go to definition" },
+		f = { vim.lsp.buf.formatting, "Format" },
+		d = { function() vim.diagnostic.open_float() end,
+			"Hover Diagnostics" },
 		e = { function() require("telescope.builtin").diagnostics() end, "Document Diagnostics" },
 		D = { function() require("telescope.builtin").lsp_implementations() end, "Declaration" },
 		i = { vim.lsp.buf.implementation, "Implementation" },
