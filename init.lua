@@ -388,6 +388,15 @@ local servers = {
   tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
 
+  prettier = {},
+  prettierd = {},
+
+  ["python-lsp-server"] = {},
+  pyright = {},
+
+
+
+
   lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
