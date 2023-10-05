@@ -79,11 +79,27 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  {
+    'lukas-reineke/headlines.nvim',
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true, -- or `opts = {}`
+  },
 
   -- Smart splits
   'mrjones2014/smart-splits.nvim',
+  {
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    config = function()
+      vim.g.mkdp_filetypes = {
+        "markdown" }
+    end,
+    ft = {
+      "markdown" },
+  },
 
   {
     "kylechui/nvim-surround",
