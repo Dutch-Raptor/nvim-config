@@ -1,11 +1,11 @@
 return {
-  "b0o/SchemaStore.nvim",
-  {
-    "kosayoda/nvim-lightbulb",
-    opts = {
-      autocmd = { enabled = true },
-    },
+  {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x', 
+  config = function()
+      require('lspconfig').rust_analyzer.setup({})
+
+    end
   },
+  "b0o/SchemaStore.nvim",
   "folke/neodev.nvim",
   {
     "jose-elias-alvarez/null-ls.nvim",
