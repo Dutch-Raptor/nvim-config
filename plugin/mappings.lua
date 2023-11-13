@@ -128,16 +128,85 @@ wk.register({
 	["<leader>n"] = { function() require("harpoon.ui").nav_file(1) end, "Harpoon: navigate to file 1" },
 	["<leader>e"] = { function() require("harpoon.ui").nav_file(2) end, "Harpoon: navigate to file 2" },
 	["<leader>a"] = { function() require("harpoon.ui").nav_file(3) end, "Harpoon: navigate to file 3" },
+	["<leader>pn"] = { function() require("harpoon.ui").nav_file(4) end, "Harpoon: navigate to file 4" },
+	["<leader>pe"] = { function() require("harpoon.ui").nav_file(5) end, "Harpoon: navigate to file 5" },
+	["<leader>pa"] = { function() require("harpoon.ui").nav_file(6) end, "Harpoon: navigate to file 6" },
+
 
 	-- swap lines
-	["<A-j>"] = { ":m .+1<CR>==", desc = "Move line down" },
-	["<A-k>"] = { ":m .-2<CR>==", desc = "Move line up" },
+	["<M-j>"] = { ":m .+1<CR>==", desc = "Move line down" },
+	["<M-k>"] = { ":m .-2<CR>==", desc = "Move line up" },
 
-	["<leader>v"] = { name = "Split or join multiline object" },
-	["<leader>vj"] = { ":TSJToggle<cr>", desc = "Toggle multiline" },
-	["<leader>vv"] = { ":TSJToggle<cr>", desc = "Toggle multiline" },
-	["<leader>vl"] = { ":TSJSplit<cr>", desc = "Split multiline" },
-	["<leader>vk"] = { ":TSJJoin<cr>", desc = "Join multiline" },
+
+	-- Trouble
+	["<leader>t"] = { name = "Trouble",
+		d = { function() require("trouble").toggle { mode = "lsp_definitions" } end, "Definitions" },
+		r = { function() require("trouble").toggle { mode = "lsp_references" } end, "References" },
+		t = { function() require("trouble").toggle { mode = "lsp_type_definitions" } end, "Type Definitions" },
+		s = { function() require("trouble").toggle { mode = "document_diagnostics" } end,
+			"Document Diagnostics" },
+		e = { function() require("trouble").toggle { mode = "workspace_diagnostics" } end,
+			"Workspace Diagnostics" },
+		q = { function() require("trouble").toggle { mode = "quickfix" } end, "Quickfix" },
+		l = { function() require("trouble").toggle { mode = "loclist" } end, "Location List" },
+		n = { function() require("trouble").next { skip_groups = true, jump = true } end, "Next" },
+		p = { function() require("trouble").previous { skip_groups = true, jump = true } end, "Previous" },
+		R = { function() require("trouble").refresh() end, "Refresh" },
+	},
+
+	-- Flash
+	["<leader>r"] = { name = "Flash",
+		d = { function()
+			require("flash").jump({
+				matcher = function(win)
+					---@param diag Diagnostic
+					return vim.tbl_map(function(diag)
+						return {
+							pos = { diag.lnum + 1, diag.col },
+							end_pos = { diag.end_lnum + 1, diag.end_col - 1 },
+						}
+					end, vim.diagnostic.get(vim.api.nvim_win_get_buf(win)))
+				end,
+				action = function(match, state)
+					vim.api.nvim_win_call(match.win, function()
+						vim.api.nvim_win_set_cursor(match.win, match.pos)
+						print(match.pos)
+						vim.diagnostic.open_float()
+					end)
+					state:restore()
+				end
+			})
+		end, "Diagnostics" },
+
+		k = { function()
+			require("flash").jump({
+				action = function(match, state)
+					vim.api.nvim_win_call(match.win, function()
+						vim.api.nvim_win_set_cursor(match.win, match.pos)
+						vim.lsp.buf.hover()
+					end)
+					state:restore()
+				end
+			})
+		end, "Hover" },
+
+		r = { function() require("flash").jump({ continue = true }) end, "Continue last flash" },
+		l = { function()
+			require("flash").jump({
+				search = { mode = "search", max_length = 0 },
+				label = { after = { 0, 0 } },
+				pattern = "^"
+			})
+		end, "Search" },
+
+	},
+
+	-- Multi line objects
+	["<leader>m"] = { name = "Split or join multiline object",
+		m = { function() require("treesj").toggle() end, "Toggle multiline" },
+		s = { function() require("treesj").split() end, "Split multiline" },
+		j = { function() require("treesj").join() end, "Join multiline" },
+	},
 
 })
 

@@ -39,6 +39,8 @@ return {
     telescope.load_extension("undo")
     telescope.load_extension("harpoon")
 
+    local trouble = require("trouble.providers.telescope")
+
     local actions = require "telescope.actions"
     telescope.setup(
       {
@@ -64,8 +66,12 @@ return {
               ["<C-p>"] = actions.cycle_history_prev,
               ["<C-j>"] = actions.move_selection_next,
               ["<C-k>"] = actions.move_selection_previous,
+              ["<c-t>"] = trouble.open_with_trouble,
             },
-            n = { ["q"] = actions.close },
+            n = {
+              ["q"] = actions.close,
+              ["<c-t>"] = trouble.open_with_trouble,
+            },
           },
         },
         extensions = {

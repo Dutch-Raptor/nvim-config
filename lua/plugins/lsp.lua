@@ -1,50 +1,75 @@
 return {
-  {'VonHeikemen/lsp-zero.nvim', branch = 'v3.x', 
-  config = function()
+  {
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v3.x',
+    config = function()
       require('lspconfig').rust_analyzer.setup({})
-
     end
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require('nvim-ts-autotag').setup()
+    end
+  },
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    opts = {
+      -- your configuration comes here
+      -- or leave it empty to use the default settings
+      -- refer to the configuration section below
+
+    },
   },
   "b0o/SchemaStore.nvim",
   "folke/neodev.nvim",
   {
-    "jose-elias-alvarez/null-ls.nvim",
-    dependencies = {
-      {
-        "jay-babu/mason-null-ls.nvim",
-        cmd = { "NullLsInstall", "NullLsUninstall" },
-        opts = { handlers = {} },
-      },
+    "nvimtools/none-ls.nvim",
+    opts = function(_, opts)
+      local nls = require("null-ls")
+      local nls_diagnostics = nls.builtins.diagnostics
+      local nls_formatting = nls.builtins.formatting
+      local diagnostics = {
+        -- The linter that needs to be added is loaded here
+        nls_diagnostics.mypy,
+      }
+      local formatting = {
+        -- The formatter that needs to be added is loaded here
+        nls_formatting.black,
+      }
+      if type(opts.sources) == "table" then
+        opts.sources = vim.list_extend(opts.sources, diagnostics)
+        opts.sources = vim.list_extend(opts.sources, formatting)
+      end
+      opts.debug = true
+    end,
+  }, {
+  "stevearc/aerial.nvim",
+  opts = {
+    attach_mode = "global",
+    backends = { "treesitter", "lsp", "markdown", "man" },
+    layout = { min_width = 28 },
+    show_guides = true,
+    filter_kind = false,
+    guides = {
+      mid_item = "├ ",
+      last_item = "└ ",
+      nested_top = "│ ",
+      whitespace = "  ",
     },
-    event = "User AstroFile",
-    opts = {},
-  },
-  {
-    "stevearc/aerial.nvim",
-    opts = {
-      attach_mode = "global",
-      backends = { "lsp", "treesitter", "markdown", "man" },
-      layout = { min_width = 28 },
-      show_guides = true,
-      filter_kind = false,
-      guides = {
-        mid_item = "├ ",
-        last_item = "└ ",
-        nested_top = "│ ",
-        whitespace = "  ",
-      },
-      keymaps = {
-        ["[y"] = "actions.prev",
-        ["]y"] = "actions.next",
-        ["[Y"] = "actions.prev_up",
-        ["]Y"] = "actions.next_up",
-        ["{"] = false,
-        ["}"] = false,
-        ["[["] = false,
-        ["]]"] = false,
-      },
+    keymaps = {
+      ["[y"] = "actions.prev",
+      ["]y"] = "actions.next",
+      ["[Y"] = "actions.prev_up",
+      ["]Y"] = "actions.next_up",
+      ["{"] = false,
+      ["}"] = false,
+      ["[["] = false,
+      ["]]"] = false,
     },
   },
+},
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
   {
