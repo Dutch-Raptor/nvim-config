@@ -79,11 +79,27 @@ require('lazy').setup({
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
+
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
+  {
+    'lukas-reineke/headlines.nvim',
+    dependencies = "nvim-treesitter/nvim-treesitter",
+    config = true, -- or `opts = {}`
+  },
 
   -- Smart splits
   'mrjones2014/smart-splits.nvim',
+  {
+    "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    config = function()
+      vim.g.mkdp_filetypes = {
+        "markdown" }
+    end,
+    ft = {
+      "markdown" },
+  },
 
   {
     "kylechui/nvim-surround",
@@ -98,12 +114,6 @@ require('lazy').setup({
   {
     "mg979/vim-visual-multi",
     event = "BufRead",
-  },
-  {
-    "ggandor/leap.nvim",
-    init = function()
-      require('leap').add_default_mappings()
-    end
   },
   {
     "Wansmer/treesj",
@@ -179,10 +189,38 @@ require('lazy').setup({
     'lukas-reineke/indent-blankline.nvim',
     -- Enable `lukas-reineke/indent-blankline.nvim`
     -- See `:help indent_blankline.txt`
-    opts = {
-      char = '┊',
-      show_trailing_blankline_indent = false,
-    },
+    main = "ibl",
+    config = function()
+      -- local highlight = {
+      --   "RainbowRed",
+      --   "RainbowYellow",
+      --   "RainbowBlue",
+      --   "RainbowOrange",
+      --   "RainbowGreen",
+      --   "RainbowViolet",
+      --   "RainbowCyan",
+      -- }
+      --
+      -- local hooks = require "ibl.hooks"
+      -- -- create the highlight groups in the highlight setup hook, so they are reset
+      -- -- every time the colorscheme changes
+      -- hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+      --   vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#BF616A" })
+      --   vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#EBCB8B" })
+      --   vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#5E81AC" })
+      --   vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#D08770" })
+      --   vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#A3BE8C" })
+      --   vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#B48EAD" })
+      --   vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#56B6C2" })
+      -- end)
+      --
+      local ibl = require("ibl")
+      ibl.setup({
+        -- indent = {
+        --   highlight = highlight,
+        -- }
+      })
+    end
   },
 
   -- "gc" to comment visual regions/lines
@@ -387,10 +425,16 @@ end
 local servers = {
   -- clangd = {},
   gopls = {},
-  -- pyright = {},
-  rust_analyzer = {},
+  pyright = {},
+  -- rust_analyzer = {},
   tsserver = {},
   -- html = { filetypes = { 'html', 'twig', 'hbs'} },
+
+  pylsp = {},
+  -- pyright = {},
+
+
+
 
   lua_ls = {
     Lua = {
