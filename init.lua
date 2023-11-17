@@ -148,8 +148,6 @@ require('lazy').setup({
     },
   },
 
-  "tpope/vim-fugitive",
-
   {
     'rebelot/kanagawa.nvim',
     priority = 1000,
@@ -328,6 +326,18 @@ require('nvim-treesitter.configs').setup {
         ['if'] = '@function.inner',
         ['ac'] = '@class.outer',
         ['ic'] = '@class.inner',
+        ['ai'] = '@conditional.outer',
+        ['ii'] = '@conditional.inner',
+        ['al'] = '@loop.outer',
+        ['il'] = '@loop.inner',
+        ['as'] = '@statement.outer',
+        ['is'] = '@statement.inner',
+        ['am'] = '@call.outer',
+        ['im'] = '@call.inner',
+        ['xl'] = '@assignment.lhs',
+        ['xr'] = '@assignment.rhs',
+        ['ix'] = '@assignment.inner',
+        ['ax'] = '@assignment.outer',
       },
     },
     move = {
@@ -359,14 +369,27 @@ require('nvim-treesitter.configs').setup {
         ['<leader>A'] = '@parameter.inner',
       },
     },
+    lsp_interop = {
+      enable = true,
+      border = "rounded",
+      floating_preview_opts = {},
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+        ["<leader>dc"] = "@class.outer",
+        ["<leader>di"] = "@conditional.outer",
+        ["<leader>dl"] = "@loop.outer",
+        ["<leader>ds"] = "@statement.outer",
+        ["<leader>dm"] = "@call.outer",
+        ["<leader>da"] = "@attribute.outer",
+        ["<leader>dx"] = "@assignment.outer",
+      },
+    },
   },
 }
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
--- vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
--- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
