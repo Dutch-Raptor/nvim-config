@@ -38,6 +38,16 @@ local nvim = function(nvim_fn, desc)
 	end
 end
 
+local vscode_only = function(vscode_fn, desc)
+	if vim.g.vscode then
+		return {
+			vscode_fn, desc
+		}
+	else
+		return nil
+	end
+end
+
 -- define the same mapping for neovim and vscode
 local either = function(cmd, desc)
 	return {
@@ -206,6 +216,11 @@ wk.register(
 				":AerialToggle<cr>",
 				function() require('vscode-neovim').call("outline.focus") end,
 				"Toggle Aerial"
+			),
+			S = nvim_vscode(
+				":AerialClose<cr>",
+				function() require('vscode-neovim').call("workbench.action.closeAuxiliaryBar") end,
+				"Close Aerial"
 			),
 
 			w = {
