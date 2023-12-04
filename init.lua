@@ -154,6 +154,7 @@ require('lazy').setup({
     config = function()
       require('kanagawa').setup({
         -- Options here
+        transparent = true,
         colors = {
           theme = {
             all = {
@@ -164,7 +165,7 @@ require('lazy').setup({
           },
         },
       })
-      vim.cmd.colorscheme 'kanagawa-dragon'
+      vim.cmd.colorscheme 'kanagawa-wave'
     end,
   },
 
