@@ -146,7 +146,7 @@ wk.register(
 
 		-- See `:help telescope.builtin`
 		["<leader>b"] = nvim_vscode(
-			require('telescope.builtin').buffers,
+			function() require('telescope.builtin').buffers() end,
 			function() vscode.call("workbench.action.quickOpen") end,
 			'[ ] Find existing buffers'
 		),
@@ -163,23 +163,44 @@ wk.register(
 			'[/] Fuzzily search in current buffer'),
 
 
-		["<leader>f"] = { name = "Telescope files",
+		["<leader>f"] = {
+			name = "Telescope files",
 
-			f = nvim(require('telescope.builtin').find_files, '[F]ind [F]iles'),
-			o = nvim(require('telescope.builtin').oldfiles, 'Find recently opened files'),
+			f = nvim(
+				function() require('telescope.builtin').find_files() end,
+				'[F]ind [F]iles'
+			),
+			o = nvim(
+				function() require('telescope.builtin').oldfiles() end,
+				'Find recently opened files'
+			),
 			["<CR>"] = nvim(function() require("telescope.builtin").resume() end, "Resume previous search")
 		},
 
-		["<leader>s"] = { name = "Telescope Search",
-			h = nvim(require('telescope.builtin').help_tags, '[S]earch [H]elp'),
-			w = nvim(require('telescope.builtin').grep_string, '[S]earch current [W]ord'),
-			g = nvim(require('telescope.builtin').live_grep, '[S]earch by [G]rep'),
-			d = nvim(require('telescope.builtin').diagnostics, '[S]earch [D]iagnostics'),
+		["<leader>s"] = {
+			name = "Telescope Search",
+			h = nvim(
+				function() require('telescope.builtin').help_tags() end,
+				'[S]earch [H]elp'
+			),
+			w = nvim(
+				function() require('telescope.builtin').grep_string() end,
+				'[S]earch current [W]ord'
+			),
+			g = nvim(
+				function() require('telescope.builtin').live_grep() end,
+				'[S]earch by [G]rep'
+			),
+			d = nvim(
+				function() require('telescope.builtin').diagnostics() end,
+				'[S]earch [D]iagnostics'
+			),
 		},
 
 
 		-- LSP
-		["<leader>l"] = { name = "LSP",
+		["<leader>l"] = {
+			name = "LSP",
 			a = nvim_vscode(
 				function() require("actions-preview").code_actions() end,
 				function() vscode.call("editor.action.codeAction") end,
@@ -241,7 +262,8 @@ wk.register(
 		),
 
 		-- Vim command shortcuts
-		["<leader>q"] = { name = "Quit options",
+		["<leader>q"] = {
+			name = "Quit options",
 			q = nvim_vscode(
 				"<cmd>q<cr>",
 				function() vscode.call("workbench.action.closeActiveEditor") end,
@@ -281,7 +303,8 @@ wk.register(
 
 		-- Git
 
-		["<leader>g"] = { name = "Git",
+		["<leader>g"] = {
+			name = "Git",
 			b = nvim("<cmd>Git blame<cr>", "Blame"),
 			c = nvim("<cmd>Git commit<cr>", "Commit"),
 			d = nvim("<cmd>Git diff<cr>", "Diff"),
@@ -349,7 +372,8 @@ wk.register(
 
 
 		-- Trouble
-		["<leader>t"] = { name = "Trouble",
+		["<leader>t"] = {
+			name = "Trouble",
 			d = nvim(function() require("trouble").toggle { mode = "lsp_definitions" } end,
 				"Definitions"),
 			r = nvim(function() require("trouble").toggle { mode = "lsp_references" } end,
@@ -379,7 +403,8 @@ wk.register(
 		},
 
 		-- Flash
-		["<leader>r"] = { name = "Flash",
+		["<leader>r"] = {
+			name = "Flash",
 			d = nvim(function()
 				require("flash").jump({
 					matcher = function(win)
@@ -431,7 +456,8 @@ wk.register(
 		},
 
 		-- Multi line objects
-		["<leader>m"] = { name = "Split or join multiline object",
+		["<leader>m"] = {
+			name = "Split or join multiline object",
 			m = nvim(function() require("treesj").toggle() end, "Toggle multiline"),
 			s = nvim(function() require("treesj").split() end, "Split multiline"),
 			j = nvim(function() require("treesj").join() end, "Join multiline"),

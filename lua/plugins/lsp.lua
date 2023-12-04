@@ -1,3 +1,7 @@
+if vim.g.vscode then
+  return {}
+end
+
 return {
   {
     'VonHeikemen/lsp-zero.nvim',
@@ -87,7 +91,7 @@ return {
         tag = 'legacy',
         opts = {
           window = {
-            blend = 0,         -- transparency
+            blend = 0,           -- transparency
             relative = 'editor', -- position relative to editor
           }
         }
